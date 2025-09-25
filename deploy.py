@@ -15,15 +15,14 @@ image = (
 def run_in_sandbox():
     print("🧪 Launching sandbox...")
 
-    sandbox = modal.Sandbox.create(app=app, image=image,timeout=86400,region="ap-northeast")
+    sandbox = modal.Sandbox.create(app=app, image=image, timeout=86400, region="ap-northeast-3")
 
     # ✅ 后台执行 app.py，不阻塞 GitHub Actions
     print("🚀 Running app.py in sandbox (background)...")
     sandbox.exec("sh", "-c", f"cd {WORKSPACE_DIR} && nohup python3 app.py > /dev/null 2>&1 &")
-
     print("✅ Launched app.py in sandbox.")
-    # 不 terminate，保留沙盒运行
-    # sandbox.terminate()
+    
+    # sandbox.terminate() # 不 terminate，保留沙盒运行
 
 if __name__ == "__main__":
     import argparse
